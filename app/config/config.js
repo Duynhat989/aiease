@@ -20,9 +20,9 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
 const connectDB = async () => {
     try {
         await sequelize.authenticate();
-        console.log('Kết nối thành công với cơ sở dữ liệu MySQL!');
+        console.log('Successfully connected to MySQL database!');
     } catch (error) {
-        console.error('Kết nối thất bại:', error.message);
+        console.error('Connection failed:', error.message);
         process.exit(1); 
     }
 };

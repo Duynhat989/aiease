@@ -77,18 +77,50 @@ const getTaskId = async (session, task_id) => {
 const uploadImg = async (base64String, session) => {
     return await uploadFromBase64(base64String, session.token)
 }
-const apply_ai_filters = (img_url, style_id,session) => {
+const apply_ai_filters = (img_url, style_id, session) => {
     return new Promise((resolve, reject) => {
         const myHeaders = new Headers();
         myHeaders.append("Authorization", `JWT ${session.token}`);
         myHeaders.append("Content-Type", "application/json");
 
-        const raw = JSON.stringify({ 
-            gen_type: "ai_filter", 
-            ai_filter_extra_data: { 
-                img_url: img_url, 
+        const raw = JSON.stringify({
+            gen_type: "ai_filter",
+            ai_filter_extra_data: {
+                img_url: img_url,
                 style_id: style_id
-            } 
+            }
+        });
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+        fetch("https://www.aiease.ai/api/api/gen/img2img", requestOptions)
+            .then((response) => response.json())
+            .then((result) => {
+                resolve(result)
+            })
+            .catch((error) => {
+                resolve({
+                    error
+                })
+            });
+    })
+}
+const generate_headshot = (img_url, style_id, size, session) => {
+    return new Promise((resolve, reject) => {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", `JWT ${session.token}`);
+        myHeaders.append("Content-Type", "application/json");
+        const raw = JSON.stringify({
+            gen_type: "headshot",
+            headshot_extra_data: {
+                img_url: img_url,
+                style_id: style_id,
+                size: size
+            }
         });
         const requestOptions = {
             method: "POST",
@@ -114,5 +146,6 @@ module.exports = {
     t2i,
     getTaskId,
     uploadImg,
-    apply_ai_filters
+    apply_ai_filters,
+    generate_headshot
 }

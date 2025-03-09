@@ -238,7 +238,7 @@ exports.confirm = async (req, res) => {
         // sendEmailChangePass(user.email, user.name)
         return res.status(200).json({
             success: true,
-            message: "Thay đổi mật khẩu thành công"
+            message: "Password changed successfully"
         });
     } catch (error) {
         return res.status(404).json({
@@ -269,7 +269,7 @@ exports.confirmAdmin = async (req, res) => {
         // sendEmailChangePass(user.email, user.name)
         return res.status(200).json({
             success: true,
-            message: "Thay đổi mật khẩu thành công"
+            message: "Password changed successfully"
         });
     } catch (error) {
         return res.status(404).json({
@@ -290,7 +290,7 @@ exports.changePass = async (req, res) => {
         if (!user) {
             return res.status(404).json({
                 success: false,
-                message: "Người dùng không tồn tại"
+                message: "User does not exist"
             });
         }
 
@@ -299,7 +299,7 @@ exports.changePass = async (req, res) => {
         if (!isMatch) {
             return res.status(400).json({
                 success: false,
-                message: "Mật khẩu cũ không chính xác"
+                message: "Old password is incorrect"
             });
         }
 
@@ -314,13 +314,13 @@ exports.changePass = async (req, res) => {
 
         return res.status(200).json({
             success: true,
-            message: "Thay đổi mật khẩu thành công"
+            message: "Password changed successfully"
         });
     } catch (error) {
-        console.error("Lỗi khi đổi mật khẩu:", error);
+        // console.error("Lỗi khi đổi mật khẩu:", error);
         return res.status(500).json({
             success: false,
-            message: "Đã xảy ra lỗi trong quá trình xử lý"
+            message: "An error occurred during processing."
         });
     }
 };
