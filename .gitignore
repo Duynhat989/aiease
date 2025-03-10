@@ -2,3 +2,4 @@
 # .env
 /stores/
 /temp_files/
+/public/
