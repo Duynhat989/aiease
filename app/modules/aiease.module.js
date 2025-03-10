@@ -141,11 +141,109 @@ const generate_headshot = (img_url, style_id, size, session) => {
             });
     })
 }
+const enhancePhoto = (img_url, mode = "4", size = '4', session) => {
+    return new Promise((resolve, reject) => {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", `JWT ${session.token}`);
+        myHeaders.append("Content-Type", "application/json");
+        const raw = JSON.stringify({
+            gen_type: "enhance",
+            enhance_extra_data: {
+                img_url: img_url,
+                mode: mode,
+                size: size,
+                restore: 1
+            }
+        }
+        );
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+        fetch("https://www.aiease.ai/api/api/gen/img2img", requestOptions)
+            .then((response) => response.json())
+            .then((result) => {
+                resolve(result)
+            })
+            .catch((error) => {
+                resolve({
+                    error
+                })
+            });
+    })
+}
+const restorePhoto = (img_url, restore_type = 'recolor', session) => {
+    return new Promise((resolve, reject) => {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", `JWT ${session.token}`);
+        myHeaders.append("Content-Type", "application/json");
+        const raw = JSON.stringify({
+            gen_type: "restore",
+            restore_extra_data: {
+                img_url: img_url,
+                restore_type: restore_type //"restore_recolor" //restore //recolor
+            }
+        });
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+        fetch("https://www.aiease.ai/api/api/gen/img2img", requestOptions)
+            .then((response) => response.json())
+            .then((result) => {
+                resolve(result)
+            })
+            .catch((error) => {
+                resolve({
+                    error
+                })
+            });
+    })
+}
+const blurImageBackground = (img_url, session) => {
+    return new Promise((resolve, reject) => {
+        const myHeaders = new Headers();
+        myHeaders.append("Authorization", `JWT ${session.token}`);
+        myHeaders.append("Content-Type", "application/json");
+        const raw = JSON.stringify({
+            gen_type: "bg_blur",
+            bg_blur_extra_data: {
+                img_url: img_url
+            }
+        });
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+        fetch("https://www.aiease.ai/api/api/gen/img2img", requestOptions)
+            .then((response) => response.json())
+            .then((result) => {
+                resolve(result)
+            })
+            .catch((error) => {
+                resolve({
+                    error
+                })
+            });
+    })
+}
 module.exports = {
     signIn,
     t2i,
     getTaskId,
     uploadImg,
     apply_ai_filters,
-    generate_headshot
+    generate_headshot,
+    enhancePhoto,
+    restorePhoto,
+    blurImageBackground
 }
