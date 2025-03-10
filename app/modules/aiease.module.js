@@ -141,7 +141,7 @@ const generate_headshot = (img_url, style_id, size, session) => {
             });
     })
 }
-const enhancePhoto = (img_url, mode = "4", size = '4', session) => {
+const enhancePhoto = (img_url, mode = "general", size = '4', session) => {
     return new Promise((resolve, reject) => {
         const myHeaders = new Headers();
         myHeaders.append("Authorization", `JWT ${session.token}`);
